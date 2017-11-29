@@ -1,58 +1,50 @@
 var _ = require('lodash')
-var datastore = require('../datastore');
+//var datastore = require('../datastore');
+var Cage = require('./cage.model');
 
 // Get list of cagess
+function handleError(res, err) {
+    return res.status(500).json(err);
+}
+
 exports.index = function (req, res) {
-    return res.status(200).json(datastore.cages);
-};
-
-// Creates a new cage in datastore.
-exports.create = function (req, res) {
-    var nextId = 0
-    var last = _.last(datastore.cages)
-    if (last != undefined) {
-        nextId = last.id + 1
-    } else {
-        nextId = 1
-    }
-    var cage = {
-        id: nextId,
-        price:req.body.price,
-        name: req.body.name,
-        imageUrl: req.body.imageUrl,
-        snippet: req.body.snippet
-    };
-    datastore.cages.push(cage)
-    return res.status(201).json(cage);
-};
-
-// Update an existing cage in datastore.
-exports.update = function (req, res) {
-    var index = _.findIndex(datastore.cages, function (cage) {
-        return cage.id == req.params.id;
+    Cage.find(function (err, cages) {
+        if (err) { return handleError(res, err); }
+        console.log('index ok' + cages[0]);
+        return res.status(200).json(cages);
     });
-    if (index !== -1) {
-        var id = datastore.cages[index].id;
-        datastore.cages.splice(index, 1,
-            {
-                id:id,
-                price: req.body.price, name: req.body.name, imageUrl: req.body.imageUrl,
-                snippet: req.body.snippet
-            });
-        return res.sendStatus(200);
-    }
-    return res.sendStatus(404);
 };
 
-// Deletes a contact from datastore.
-exports.destroy = function (req, res) {
-    var elements = _.remove(datastore.cages,
-        function (cage) {
-            return cage.id == req.params.id;
-        });
-    if (elements.length == 1) {
-        return res.sendStatus(200);
-    } else {
-        return res.sendStatus(404);
-    }
+// Creates a new contact in datastore.
+exports.create = function (req, res) {
+    Cage.create(req.body, function (err, cage) {
+        if (err) { return handleError(res, err); }
+        return res.status(201).json(cage);
+    });
 };
+
+
+// Update an existing contact in datastore.
+exports.update = function (req, res) {
+    Cage.findById(req.params.id, function (err, cage) {
+        if (err) { return handleError(res, err); }
+        cage.price = req.body.price
+        cage.name = req.body.name
+        cage.imageUrl = req.body.imageUrl
+        cage.snippet = req.body.snippet
+        cage.save(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.sendStatus(200, 'Update successful');
+        });
+    });
+}
+
+exports.destroy = function (req, res) {
+    Cage.findById(req.params.id, function (err, cage) {
+        if (err) { return handleError(res, err); }
+        cage.remove(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.sendStatus(200, 'Deleted');
+        });
+    })
+}

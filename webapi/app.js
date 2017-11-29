@@ -7,6 +7,11 @@ var bodyParser = require('body-parser');
 
 
 var app = express();
+var mongoose = require('mongoose');    // NEW   
+mongoose.connect('mongodb://localhost/cageListdb'); // NEW
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

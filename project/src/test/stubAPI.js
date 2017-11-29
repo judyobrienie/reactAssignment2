@@ -21,26 +21,26 @@ class StubAPI {
 
     delete(k) {
         let elements = _.remove(this.cages,
-            (cage) => cage.id === k
+            (cage) => cage._id === k
         );
         return elements;
     }
    
-    add(p, n, i, s) {
+    add(id,p, n, i, s) {
         let len = this.cages.length;
         let newLen = this.cages.push({
-            price:p, name: n, imageUrl: i, snippet: s
+         _id: id,   price:p, name: n, imageUrl: i, snippet: s
         });
         return newLen > len;
     }
 
-    update(key, p, n, i, s) {
+    update(id, p, n, i, s) {
         var index = _.findIndex(this.cages,
-            (cage) => cage.id === key
+            (cage) => cage._id === id
         );
         if (index !== -1) {
             this.cages.splice(index, 1,
-                {price: p, name: n, imageUrl: i, snippet: s });
+                {_id: id, price: p, name: n, imageUrl: i, snippet: s });
             return true;
         }
         return false;

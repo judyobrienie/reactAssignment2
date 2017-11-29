@@ -1,9 +1,11 @@
 import React from 'react';
 import './App.css';
 import _ from 'lodash';
-import Cages from './Data';
+//import Cages from './Data';
 import { Link } from 'react-router';
 
+import api from './test/stubAPI';
+import request from 'superagent'; 
 
 
 
@@ -91,6 +93,23 @@ class FilteredCageList extends React.Component {
 
 class CageApp extends React.Component {
 
+    componentDidMount() {
+        request.get('http://localhost:3000/api/cages')
+            .end((error, res) => {
+                if (res) {
+                    var cages = JSON.parse(res.text);
+                    api.initialize(cages);
+                    this.setState({});
+                } else {
+                    console.log(error);
+                }
+            });
+    }
+
+    
+
+
+
     state = { search: '', sort: 'name' };
 
     handleChange = (type, value) => {
@@ -101,6 +120,9 @@ class CageApp extends React.Component {
         }
     };
     render() {
+
+        var Cages = api.getAll(); 
+
         let list = Cages.filter((p) => {
             return p.name.toLowerCase().search(
                 this.state.search.toLowerCase()) !== -1;

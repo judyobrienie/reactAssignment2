@@ -70,7 +70,7 @@ class Cage extends React.Component {
             return;
         }
         this.setState({ status: '' })
-        this.props.updateHandler(this.props.cage.id, price, name, imageUrl, snippet);
+        this.props.updateHandler(this.props.cage._id, price, name, imageUrl, snippet);
     };
 
     handleDelete = (e) => this.setState({ status: 'delete' });
@@ -83,7 +83,7 @@ class Cage extends React.Component {
     handleConfirm = (e) => {
         e.preventDefault();
         this.setState({ status: '' })
-        this.props.deleteHandler(this.props.cage.id);
+        this.props.deleteHandler(this.props.cage._id);
 
     };
 
@@ -212,8 +212,8 @@ class Cages extends React.Component {
         request.get('http://localhost:3000/api/cages')
             .end((error, res) => {
                 if (res) {
-                    var contacts = JSON.parse(res.text);
-                    api.initialize(contacts);
+                    var cages = JSON.parse(res.text);
+                    api.initialize(cages);
                     this.setState({});
                 } else {
                     console.log(error);
@@ -229,7 +229,7 @@ class Cages extends React.Component {
             .set('Content-Type', 'application/json')
             .end((err, res) => {
                 if (err || !res.ok) {
-                    alert('Error adding contact');
+                    alert('Error adding cage');
                 } else {
                     let newCage = JSON.parse(res.text);
                     api.add(newCage.price,
