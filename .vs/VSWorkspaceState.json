@@ -3,14 +3,14 @@
     "",
     "\\project",
     "\\project\\public",
-    "\\project\\public\\cageSpecs\\images",
+    "\\project\\public\\cageSpecs",
+    "\\project\\public\\cageSpecs\\cages",
     "\\project\\src",
     "\\project\\src\\test",
     "\\webapi",
     "\\webapi\\api",
-    "\\webapi\\api\\posts",
-    "\\webapi\\config"
+    "\\webapi\\api\\cages"
   ],
-  "SelectedNode": "\\project\\package.json",
+  "SelectedNode": "\\project\\src\\cageDetail.js",
   "PreviewInSolutionExplorer": false
 }

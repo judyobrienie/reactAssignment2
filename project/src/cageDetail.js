@@ -23,7 +23,7 @@ class ImagesSection extends React.Component {
             <div>
                 {mainImage}
                 <h1>{this.props.cage.name}</h1>
-                <p>{this.props.cage.description}</p>
+               
                 <ul className="cage-thumbs">
                     {thumbImages}
                 </ul>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import _ from 'lodash';
-//import Cages from './Data';
+
 import { Link } from 'react-router';
 
 import api from './test/stubAPI';
