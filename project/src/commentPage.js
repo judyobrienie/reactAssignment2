@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import api from './test/stub_API';
+import request from 'superagent'; 
+
 
 class Form extends React.Component {
     state = { comment: '', name: '' };
@@ -48,7 +50,7 @@ class Form extends React.Component {
 
 class Comment extends React.Component {
     handleVote = () => {
-        this.props.upvoteHandler(this.props.comment.id);
+        this.props.upvoteHandler(this.props.comment._id, this.props.comment.upvotes);
     };
     render() {
         let lineStyle = {
@@ -86,38 +88,81 @@ class CommentList extends React.Component {
 }
 
 class CommentView extends React.Component {
+    componentDidMount() {
+        request.get('http://localhost:3000/api/posts/' + this.props.params.postId)
+            .end((error, res) => {
+                if (res) {
+                    var post = JSON.parse(res.text);
+                    api.setOrUpdate(post);
+                    this.setState({});
+                } else {
+                    console.log(error);
+                }
+            });
+    }
     addComment = (comment, name) => {
-        let pid = parseInt(this.props.params.postId, 10);
-        api.addComment(pid, comment, name);
-        this.setState({});
+        request
+            .post('http://localhost:3000/api/posts/' +
+            this.props.params.postId + '/comments')
+            .send({ comment: comment, author: name })
+            .set('Content-Type', 'application/json')
+            .end((err, res) => {
+                if (err || !res.ok) {
+                    alert('Error adding comment');
+                } else {
+                    let post = JSON.parse(res.text);
+                    api.setOrUpdate(post);
+                    this.setState({});
+                }
+            });
     };
 
-    incrementUpvote = (commentId) => {
-        let pid = parseInt(this.props.params.postId, 10);
-        api.upvoteComment(pid, commentId);
-        this.setState({});
+    incrementUpvote = (commentId, upvotes) => {
+        request
+            .put('http://localhost:3000/api/posts/' +
+            this.props.params.postId + '/comments/' +
+            commentId + '/upvotes')
+            .send({ upvotes: upvotes + 1 })
+            .set('Content-Type', 'application/json')
+            .end((err, res) => {
+                if (err || !res.ok) {
+                    alert('Error upvoting comment');
+                } else {
+                    let post = JSON.parse(res.text);
+                    api.setOrUpdate(post);
+                    this.setState({});
+                }
+            });
     };
 
     render() {
-        let pid = parseInt(this.props.params.postId, 10);
-        let post = api.getPost(pid);
+        let post = api.getPost(this.props.params.postId);
+        let display = null;
         let line = null;
-        if (post.link) {
-            line = <a href={post.link} >
-                {post.title} </a>;
+        if (post) {
+            if (post.link) {
+                line = <a href={post.link} >
+                    {post.title} </a>;
+            } else {
+                line = <span>{post.title} </span>;
+            }
+            let comments = _.sortBy(post.comments, (comment) => - comment.upvotes);
+            display = (
+                <div >
+                    <h3>{line} </h3>
+                    <CommentList comments={comments}
+                        upvoteHandler={this.incrementUpvote} />
+                    <Form post={post} commentHandler={this.addComment} />
+                </div>);
         } else {
-            line = <span>{post.title} </span>;
+            display = (
+                <div >
+                    <h3>Loading data </h3>
+                </div>);
         }
-        let comments = _.sortBy(post.comments, function (comment) {
-            return - comment.upvotes;
-        }
-        );
         return (
-            <div >
-                <h3>{line} </h3>
-                <CommentList comments={comments}
-                    upvoteHandler={this.incrementUpvote} />
-                <Form post={post} commentHandler={this.addComment} />
+            <div>
+                {display}
             </div>
         );
     }

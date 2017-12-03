@@ -6,7 +6,7 @@ import './App.css';
 import _ from 'lodash';
 import api from './test/stub_API';
 import { Link } from 'react-router';
-
+import request from 'superagent'; 
 
 
 
@@ -67,8 +67,8 @@ class NewsItem extends React.Component {
         link: this.props.post.link
     };
 
-    handleVote = () => this.props.upvoteHandler(this.props.post.id);
-    handleDownVote = () => this.props.downvoteHandler(this.props.post.id);
+    handleVote = () => this.props.upvoteHandler(this.props.post._id);
+    handleDownVote = () => this.props.downvoteHandler(this.props.post._id);
 
     handleTitleChange = (e) => this.setState({ title: e.target.value });
 
@@ -102,7 +102,7 @@ class NewsItem extends React.Component {
                
 
                 <span style={lineStyle} >{line}<span>
-                    <Link to={'/posts/' + this.props.post.id}>Comments</Link>
+                    <Link to={'/posts/' + this.props.post._id}>Comments</Link>
                     <span className="glyphicon glyphicon-thumbs-down"
                         style={cursor}
                         onClick={this.handleDownVote} ></span>
@@ -138,38 +138,95 @@ class NewsList extends React.Component {
 }
 
 class HomeApp extends React.Component {
-    incrementUpvote = (id) => {
-        api.upvote(id);
-        this.setState({});
+    componentDidMount() {
+        request.get('http://localhost:3000/api/posts')
+            .end((error, res) => {
+                if (res) {
+                    var posts = JSON.parse(res.text);
+                    api.initialize(posts);
+                    this.setState({});
+                } else {
+                    console.log(error);
+                }
+            });
+    }
+    addPost = (title, link) => {
+        request
+            .post('http://localhost:3000/api/posts')
+            .send({ title: title, link: link })
+            .set('Content-Type', 'application/json')
+            .end((err, res) => {
+                if (err || !res.ok) {
+                    alert('Error adding');
+                } else {
+                    let newPost = JSON.parse(res.text);
+                    api.setOrUpdate(newPost);
+                    this.setState({});
+                }
+            });
     };
 
-    decrementUpvote = (id) => {
-        api.downvote(id);
-        this.setState({});
+    incrementUpvote = (id, upvotes) => {
+        request
+            .put('http://localhost:3000/api/posts/' + id + '/upvotes')
+            .send({ upvotes: upvotes + 1 })
+            .set('Content-Type', 'application/json')
+            .end((err, res) => {
+                if (err || !res.ok) {
+                    alert('Error upvoting post');
+                } else {
+                    request.get('http://localhost:3000/api/posts/' + id)
+                        .end((error, res) => {
+                            if (res) {
+                                var post = JSON.parse(res.text);
+                                api.setOrUpdate(post);
+                                this.setState({});
+                            } else {
+                                console.log(error);
+                            }
+                        });
+                } // end else
+            });
+
     };
 
-    add = (t, l) => {
-        api.add(t, l);
-        this.setState({});
+
+
+
+    decrementUpvote = (id, upvotes) => {
+        request
+            .put('http://localhost:3000/api/posts/' + id + '/upvotes')
+            .send({ upvotes: upvotes - 1 })
+            .set('Content-Type', 'application/json')
+            .end((err, res) => {
+                if (err || !res.ok) {
+                    alert('Error upvoting post');
+                } else {
+                    request.get('http://localhost:3000/api/posts/' + id)
+                        .end((error, res) => {
+                            if (res) {
+                                var post = JSON.parse(res.text);
+                                api.setOrUpdate(post);
+                                this.setState({});
+                            } else {
+                                console.log(error);
+                            }
+                        });
+                } // end else
+            });
 
     };
+
     render() {
-        let posts = _.sortBy(api.getAll(), function (post) {
+        var posts = _.sortBy(api.getAll(), function (post) {
             return - post.upvotes;
         }
         );
         return (
             <div >
-                
-                            <h1>Greyhound Racing Blog</h1>
-                            <h3> We Design Dog Cages for Vans/Cars. We Manufacture Dog Crates for Vans/Cars. We Install Safe and Secure Greyhound Cages to suit You, your Dogs and your Vans.</h3>
-                             
-                            
-                            <NewsList posts={posts}
-                                upvoteHandler={this.incrementUpvote} downvoteHandler={this.decrementUpvote} />
-
-                            <Form addHandler={this.add} />
-
+                <NewsList posts={posts}
+                    upvoteHandler={this.incrementUpvote} downvoteHandler={ this.decrementUpvote } />
+                <Form addHandler={this.addPost} />
             </div>
         );
     }

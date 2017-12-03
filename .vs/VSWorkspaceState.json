@@ -3,12 +3,14 @@
     "",
     "\\project",
     "\\project\\public",
-    "\\project\\public\\cageSpecs",
     "\\project\\public\\cageSpecs\\images",
     "\\project\\src",
-    "\\project\\src\\config",
-    "\\project\\src\\test"
+    "\\project\\src\\test",
+    "\\webapi",
+    "\\webapi\\api",
+    "\\webapi\\api\\posts",
+    "\\webapi\\config"
   ],
-  "SelectedNode": "\\project\\src\\config\\buttonsConfig.js",
+  "SelectedNode": "\\project\\package.json",
   "PreviewInSolutionExplorer": false
 }

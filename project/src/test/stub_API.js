@@ -4,56 +4,39 @@ import _ from 'lodash';
 class StubAPI {
 
     constructor() {
-        this.posts = [
-            {
-                id: 1,
-                title: 'Transcages Ireland Twitter Feed.',
-                link: 'https://twitter.com/transcages',
-                username: 'jbloggs',
-                comments: [],
-                upvotes: 0
-            },
-            {
-                id: 2,
-                title: 'Transcages Ireland Facebook.',
-                link: 'https://www.facebook.com/transcagesireland/',
-                username: 'notme',
-                comments: [],
-                upvotes: 12
-            },
-           
-        ];
+        this.posts = [];
+    }
+
+    initialize(posts) {
+        this.posts = posts;
+        return true;
     }
 
     getAll() {
         return this.posts;
     }
 
-    add(t, l) {
-        let id = 1;
-        let last = _.last(this.posts);
-        if (last) {
-            id = last.id + 1;
+
+    setOrUpdate(post) {
+        var index = _.findIndex(this.posts, { _id: post._id });
+        if (index !== -1) {
+            this.posts.splice(index, 1, post);
+        } else {
+            this.posts.push(post);
         }
-        let len = this.posts.length;
-        let newLen = this.posts.push({
-            'id': id,
-            title: t, link: l, username: '', comments: [], upvotes: 0
-        });
-        return newLen > len;
+        return true;
     }
 
-    upvote(id) {
-        let index = _.findIndex(this.posts,
-            function (post) {
-                return post.id === id;
-            });
+    getPost(id) {
+        var result = null;
+        var index = _.findIndex(this.posts, { '_id': id });
         if (index !== -1) {
-            this.posts[index].upvotes += 1;
-            return true;
+            result = this.posts[index];
         }
-        return false;
+        return result;
     }
+
+
 
     downvote(id) {
         let index = _.findIndex(this.posts,
@@ -68,16 +51,6 @@ class StubAPI {
     }
 
 
-    getPost(id) {
-        let result = null;
-        let index = _.findIndex(this.posts, function (post) {
-            return post.id === id;
-        });
-        if (index !== -1) {
-            result = this.posts[index];
-        }
-        return result;
-    }
 
     addComment(postId, c, n) {
         let post = this.getPost(postId);

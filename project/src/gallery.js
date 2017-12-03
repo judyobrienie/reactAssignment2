@@ -55,11 +55,11 @@ class CageItem extends React.Component {
 
         return (
             <li className="thumbnail cage-listing">
-                <Link to={'/cages/' + this.props.cage.id} className="thumb">
+                <Link to={'/cages/' + this.props.cage._id} className="thumb">
                     <img src={"/cageSpecs/" + this.props.cage.imageUrl}
                         alt={this.props.cage.name} /> </Link>
-                <Link to={'/cages/' + this.props.cage.id}> {this.props.cage.name}</Link>
-                <p>{this.props.cage.snippet}</p>
+                <Link to={'/cages/' + this.props.cage._id}> {this.props.cage.name}</Link>
+                 <p>{this.props.cage.snippet}</p>
                 <p>Euro {this.props.cage.price}</p>
             </li>
         );
@@ -107,6 +107,8 @@ class CageApp extends React.Component {
     }
 
     
+  
+
 
 
 

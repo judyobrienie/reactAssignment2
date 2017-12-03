@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 
 
 var app = express();
-var mongoose = require('mongoose');    // NEW   
-mongoose.connect('mongodb://localhost/cageListdb'); // NEW
+var mongoose = require('mongoose');  
+
+mongoose.connect('mongodb://localhost/modelListdb'); 
 
 
 
