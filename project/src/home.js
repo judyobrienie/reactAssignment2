@@ -166,6 +166,9 @@ class HomeApp extends React.Component {
             });
     };
 
+   
+
+
     incrementUpvote = (id, upvotes) => {
         request
             .put('http://localhost:3000/api/posts/' + id + '/upvotes')

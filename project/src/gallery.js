@@ -52,13 +52,12 @@ class Menu extends React.Component {
 
 class CageItem extends React.Component {
     render() {
-
         return (
             <li className="thumbnail cage-listing">
                 <Link to={'/cages/' + this.props.cage._id} className="thumb">
-                    <img src={"/cageSpecs/" + this.props.cage.imageUrl}
+                    <img src={"/cageSpecs/" + this.props.cage.name}
                         alt={this.props.cage.name} /> </Link>
-                <Link to={'/cages/' + this.props.cage._id}> {this.props.cage.name}</Link>
+                <Link to={'/cages/' + this.props.cage.imageUrl}> {this.props.cage.name}</Link>
                  <p>{this.props.cage.snippet}</p>
                 <p>Euro {this.props.cage.price}</p>
             </li>
@@ -69,7 +68,7 @@ class CageItem extends React.Component {
 class FilteredCageList extends React.Component {
     render() {
         var displayedCages = this.props.cages.map(function (cage) {
-            return <CageItem key={cage.id} cage={cage} />;
+            return <CageItem key={cage._id} cage={cage} />;
         });
         return (
             <div className="container-fluid">

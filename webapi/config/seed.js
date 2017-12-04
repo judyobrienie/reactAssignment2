@@ -6,56 +6,55 @@ var Post = require('../api/posts/post.model');
   Cage.find({}).remove(function() {
       Cage.create({
           price: '400',
-          imageUrl: 'images/cages/cage.jpg',
-          name: 'Two Door Cage',
+          imageUrl: 'four-door-cage',
+          name: 'Four Door Cage',
           snippet: 'Stainless Steel Four Door Cage.'
       },
       {
           price: '200',
-          imageUrl: 'images/cages/dogcrates.jpg',
+          imageUrl: 'two-door-crates',
           name: 'Two Door Dog Crates',
           snippet: 'Stainless Steel Two Door Dog Crates.'
       },
       {
           price: '300',
-          imageUrl: 'images/cages/dogvan.jpg',
+          imageUrl: 'stainless-steel-van-floor',
           name: 'Stainless Steel Van Floor',
           snippet: 'Stainless Steel Van Floor.'
       },
       {
-          price: '50000000000',
-          id: 'Four-Door-Cage',
-          imageUrl: 'images/cages/fourdoorcage.jpg',
+          price: '500',
+          imageUrl: 'four-door-cage',
           name: 'Four Door Cage',
           snippet: 'Stainless Steel Four Door Cage.'
       },
       {
           price: '100',
-          imageUrl: 'images/cages/greyhoundcage.jpg',
+          imageUrl: 'two-door-greyhound-cage',
           name: 'Two Greyhound Cage',
           snippet: 'Stainless Steel Two Door Greyhound Cage.'
       },
       {
           price: '600',
-          imageUrl: 'images/cages/puppycages.jpg',
+          imageUrl: 'puppies-cage',
           name: 'Puppies Cage',
           snippet: 'Stainless Steel Six Puppies Cage.'
       },
       {
           price: '350',
-          imageUrl: 'images/cages/sidedoorcage.jpg',
+          imageUrl: 'side-door-cage',
           name: 'Side Door Cage',
           snippet: 'Stainless Steel Side Door Cage.'
       },
       {
           price: '100',
-          imageUrl: 'images/cages/standalone.jpg',
+          imageUrl: 'standalone-cage',
           name: 'Standalone Cage',
           snippet: 'Stainless Steel Standalone Two Door Cage.'
       },
       {
           price: '380',
-          imageUrl: 'images/cages/twodoorcage.jpg',
+          imageUrl: 'two-door-cage',
           name: 'Two Doors Cage',
           snippet: 'Stainless Steel Four Door Cage.'
       },  function () {

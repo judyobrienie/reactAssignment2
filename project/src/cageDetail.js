@@ -38,6 +38,7 @@ class CageDetail extends React.Component {
     componentDidMount() {
         request.get(
             '/cageSpecs/cages/' + this.props.params.id + '.json', (err, res) => {
+                console.log(res);
                 let json = JSON.parse(res.text);
                 localCache.setCage(json);
                 this.setState({});

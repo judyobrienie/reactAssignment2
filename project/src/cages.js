@@ -3,6 +3,7 @@ import React from 'react';
 import api from './test/stubAPI';
 import buttons from './config/buttons';
 import request from 'superagent'; 
+import { Link } from 'react-router';
 
 
 class CageForm extends React.Component {
@@ -49,12 +50,14 @@ class CageForm extends React.Component {
 }
 
 
+
+
 class Cage extends React.Component {
     state = {
         status: '',
         price: this.props.cage.price,
         name: this.props.cage.name,
-        imageUrl: this.props.cage.imageUrl,
+        imageUrl: this.props.cage.imageUrl ,
         snippet: this.props.cage.snippet,
     };
 
@@ -108,6 +111,9 @@ class Cage extends React.Component {
     });
 
 
+
+
+
     render() {
         let activeButtons = buttons.normal;
         let leftButtonHandler = this.handleEdit;
@@ -115,7 +121,7 @@ class Cage extends React.Component {
         let fields = [
             <td key={'price'} >{this.state.price}</td>,
             <td key={'name'}>{this.state.name}</td>,
-            <td key={'imageUrl'}>{this.state.imageUrl}</td>,
+            <td key={'imageUrl'}>{this.state.imageUrl}<Link to={'/cages/' + this.state.imageUrl}> {this.state.name}</Link></td>,
             <td key={'snippet'}>{this.state.snippet}</td>
         ];
 
@@ -172,7 +178,7 @@ class Cage extends React.Component {
 class CageList extends React.Component {
     render() {
         let cageRows = this.props.cages.map((cage) => {
-            return <Cage key={cage.id} cage={cage}
+            return <Cage key={cage._id} cage={cage}
                 updateHandler={this.props.updateHandler} deleteHandler={this.props.deleteHandler} />; 
         });
         return (
@@ -194,7 +200,7 @@ class CagesTable extends React.Component {
                         <th>Price</th>
                         <th>Name</th>
                         <th>ImageUrl</th>
-                        <th>Snipet</th>
+                        <th>Snippet</th>
                         <th></th>
                         <th></th>
                     </tr>
