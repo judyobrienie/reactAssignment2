@@ -56,7 +56,7 @@ var Post = require('../api/posts/post.model');
       {
           price: '100',
           imageUrl: 'standalone-cage',
-          image: 'images/cages/standalone.jpg',
+          image: 'images/cages/standalonecpg',
           name: 'Standalone Cage',
           snippet: 'Stainless Steel Standalone Two Door Cage.'
       },
@@ -75,18 +75,18 @@ var Post = require('../api/posts/post.model');
 
   Post.find({}).remove(function () {
       Post.create({
-          title: 'Greyhound Cages Ireland.',
+          title: 'Greyhound_Cages',
           link: 'http://www.transcagesireland.com/',
           comments: [],
           upvotes: 0
       }, {
-          title: 'Roof Vents and Roof Fans.',
+          title: 'Roof_Vents',
           link: 'http://www.transcagesireland.com/roof-vents-ireland/',
           comments: [],
           upvotes: 0
           },
       {
-          title: 'Dog Crates',
+          title: 'Dog_Crates',
           link: 'http://www.transcagesireland.com/dog-crates-ireland/',
           comments: [],
           upvotes: 0

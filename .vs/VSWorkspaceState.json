@@ -2,14 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\project",
+    "\\project\\public",
+    "\\project\\public\\cageSpecs",
+    "\\project\\public\\cageSpecs\\cages",
+    "\\project\\public\\cageSpecs\\images",
+    "\\project\\public\\cageSpecs\\images\\cages",
     "\\project\\src",
-    "\\project\\src\\test",
     "\\webapi",
-    "\\webapi\\api",
-    "\\webapi\\api\\cages",
-    "\\webapi\\api\\posts",
-    "\\webapi\\config"
+    "\\webapi\\api"
   ],
-  "SelectedNode": "\\webapi\\app.js",
+  "SelectedNode": "\\webapi\\api\\cages\\cage.model.js",
   "PreviewInSolutionExplorer": false
 }
