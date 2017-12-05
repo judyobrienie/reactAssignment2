@@ -2,7 +2,6 @@
   "ExpandedNodes": [
     "",
     "\\project",
-    "\\project\\public\\cageSpecs",
     "\\project\\src",
     "\\project\\src\\test",
     "\\webapi",
@@ -11,6 +10,6 @@
     "\\webapi\\api\\posts",
     "\\webapi\\config"
   ],
-  "SelectedNode": "\\project\\src\\home.js",
+  "SelectedNode": "\\webapi\\app.js",
   "PreviewInSolutionExplorer": false
 }

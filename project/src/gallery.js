@@ -54,8 +54,9 @@ class CageItem extends React.Component {
     render() {
         return (
             <li className="thumbnail cage-listing">
-                <Link to={'/cages/' + this.props.cage._id} className="thumb">
-                    <img src={"/cageSpecs/" + this.props.cage.name}
+                
+                <Link to={'/cages/' + this.props.cage.imageUrl} className="thumb">
+                    <img src={"/cageSpecs/" + this.props.cage.image}
                         alt={this.props.cage.name} /> </Link>
                 <Link to={'/cages/' + this.props.cage.imageUrl}> {this.props.cage.name}</Link>
                  <p>{this.props.cage.snippet}</p>
